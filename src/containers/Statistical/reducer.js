@@ -1,40 +1,37 @@
 import {
-    GET_STORE_FAIL,
-    GET_STORE_REQUEST,
-    GET_STORE_SUCCESS,
-    ADD_STATUS,
-    EDIT_STATUS,
+    GET_STATISTICAL_FAIL,
+    GET_STATISTICAL_REQUEST,
+    GET_STATISTICAL_SUCCESS,
+    GET_YEAR_SUCCESS,
 } from "./action";
 
 const initialState = {
     requesting: false,
     data: null,
+    dataYear: null,
     err: null,
     success: false,
-    addStatus: null,
-    editStatus: null,
 };
 
-export const store = (state = initialState, action) => {
+export const Statistical = (state = initialState, action) => {
     switch (action.type) {
-        case GET_STORE_REQUEST:
+        case GET_STATISTICAL_REQUEST:
             return {
                 ...state,
                 requesting: true,
                 data: null,
                 err: null,
             };
-        case GET_STORE_SUCCESS:
-            const payload = action.payload.data;
-
+        case GET_STATISTICAL_SUCCESS:
+            const { data } = action.payload;
             return {
                 ...state,
                 requesting: false,
-                data: payload,
+                data,
                 err: null,
                 success: true,
             };
-        case GET_STORE_FAIL:
+        case GET_STATISTICAL_FAIL:
             return {
                 ...state,
                 success: false,
@@ -42,15 +39,10 @@ export const store = (state = initialState, action) => {
                 data: null,
                 err: action.payload.err,
             };
-        case ADD_STATUS:
+        case GET_YEAR_SUCCESS:
             return {
                 ...state,
-                addStatus: action.status,
-            };
-        case EDIT_STATUS:
-            return {
-                ...state,
-                editStatus: action.status,
+                dataYear: action.payload.data,
             };
 
         default:

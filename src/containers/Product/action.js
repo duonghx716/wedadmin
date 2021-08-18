@@ -7,6 +7,8 @@ export const GET_ALL_TYPE_PRODUCT = "GET_ALL_TYPE_PRODUCT";
 export const GET_ALL_TYPE_PRODUCT_REQUEST = "GET_ALL_TYPE_PRODUCT_REQUEST";
 export const ADD_TYPE_PRODUCT = "ADD_TYPE_PRODUCT";
 export const EDIT_TYPE_PRODUCT = "EDIT_TYPE_PRODUCT";
+export const ADD_STATUS = "ADD_STATUS";
+export const EDIT_STATUS = "EDIT_STATUS";
 
 export const getProductRequest = () => {
     return { type: GET_PRODUCT_REQUEST };
@@ -22,6 +24,12 @@ export const getProductSuccess = (data) => {
 };
 export const getProductFail = (err) => {
     return { type: GET_PRODUCT_FAIL, payload: { err } };
+};
+export const addStatus = (status) => {
+    return { type: ADD_STATUS, status };
+};
+export const editStatus = (status) => {
+    return { type: EDIT_STATUS, status };
 };
 export const addProduct = (
     ProductName,

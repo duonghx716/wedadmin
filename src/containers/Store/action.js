@@ -2,7 +2,9 @@ export const GET_STORE_REQUEST = "GET_STORE_REQUEST";
 export const GET_STORE_SUCCESS = "GET_STORE_SUCCESS";
 export const GET_STORE_FAIL = "GET_STORE_FAIL";
 export const ADD_STORE = "ADD_STORE";
+export const ADD_STATUS = "ADD_STATUS";
 export const EDIT_STORE = "EDIT_STORE";
+export const EDIT_STATUS = "EDIT_STATUS";
 
 export const getStoreRequest = () => {
     return { type: GET_STORE_REQUEST };
@@ -33,7 +35,12 @@ export const addStore = (
         token,
     };
 };
-
+export const addStatus = (status) => {
+    return { type: ADD_STATUS, status };
+};
+export const editStatus = (status) => {
+    return { type: EDIT_STATUS, status };
+};
 export const editStore = (
     storeName,
     storeAddress,
@@ -56,10 +63,3 @@ export const editStore = (
         storeID,
     };
 };
-// data.append('storeName', 'Cửa hàng Lê Quang Định');
-// data.append('storeAddress', '123123');
-// data.append('storePhone', '962280703');
-// data.append('storeLat', '0');
-// data.append('storeLong', '4');
-// data.append('storeImage', '183');
-// data.append('token', '4');

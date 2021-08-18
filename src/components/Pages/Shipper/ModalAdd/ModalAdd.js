@@ -1,22 +1,15 @@
-import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import InputNumberPhone from "./InputNumberPhone";
-import InputCarNumber from "./InputCarNumber";
-import InputImage from "./InputImage";
+import { addShipper, editShipper } from "../../../../containers/Shipper/action";
+import Input from "../../Input";
 import SelectStore from "./SelectStore";
-import InputName from "./InputName";
-import {
-    addShipper,
-    editShipper,
-    getShipperRequest,
-} from "../../../../containers/Shipper/action";
-import { TrendingUpRounded } from "@material-ui/icons";
+import { RegexCarNumber, RegexPhoneNumber, RegexName } from "../../Regex";
 
 const ModalAdd = ({ open, setOpen, shipperUpdate }) => {
     const dispatch = useDispatch();
@@ -31,41 +24,30 @@ const ModalAdd = ({ open, setOpen, shipperUpdate }) => {
     const [carNumber, setCarNumber] = useState(null);
     const [checkCarNumber, setCheckCarNumber] = useState(false);
     const [checkupDate, setCheckupDate] = useState(false);
-
     const handleClose = () => {
         setOpen(false);
     };
 
     const handleAdd = () => {
-        const number_phone_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-        const car_number_regex =
-            /^[0-9]{2}?[a-zA-Z]{1}?[a-zA-Z\-0-9]{1} ?- ?[0-9]{4,5}$/;
-        const name_regex = /^[a-zA-Z ]{2,30}$/;
         if (!image) {
             setCheckImage(true);
-            // } else if (!name_regex.test(name)) {
-        } else if (!name) {
+        } else if (!RegexName(name)) {
             setCheckName(true);
-        } else if (!number_phone_regex.test(phoneNumber)) {
+        } else if (!RegexPhoneNumber.test(phoneNumber)) {
             setCheckPhoneNumber(true);
-        } else if (!car_number_regex.test(carNumber)) {
+        } else if (!RegexCarNumber.test(carNumber)) {
             setCheckCarNumber(true);
         } else if (!idStore) {
             setCheckStore(true);
         } else if (checkupDate == true) {
-            console.log("sửa");
             dispatch(editShipper(name, image, phoneNumber, carNumber, idStore));
-            dispatch(getShipperRequest());
             handleClose();
         } else {
-            console.log("thêm");
             dispatch(addShipper(name, image, phoneNumber, carNumber, idStore));
-            dispatch(getShipperRequest());
             handleClose();
         }
     };
-    React.useEffect(() => {
-        console.log({ shipperUpdate });
+    useEffect(() => {
         if (shipperUpdate) {
             setIDStore(shipperUpdate.StoreID);
             setImage(shipperUpdate.ShipImage);
@@ -99,29 +81,49 @@ const ModalAdd = ({ open, setOpen, shipperUpdate }) => {
                     <DialogContentText>
                         Nhập thông tin của tài xê
                     </DialogContentText>
-                    <InputImage
-                        image={image}
-                        setImage={setImage}
-                        checkImage={checkImage}
-                        setCheckImage={setCheckImage}
+                    <Input
+                        value={image}
+                        setValue={setImage}
+                        isCheck={checkImage}
+                        setIsCheck={setCheckImage}
+                        placeholder={"Hình ảnh"}
+                        desc={
+                            "hình ảnh là link url vd: https://knowlab.inpaper-1920x1200-1920x1080.jpg"
+                        }
                     />
-                    <InputName
-                        name={name}
-                        setName={setName}
-                        checkName={checkName}
-                        setCheckName={setCheckName}
+                    <Input
+                        value={name}
+                        setValue={setName}
+                        isCheck={checkName}
+                        setIsCheck={setCheckName}
+                        placeholder={"Tên"}
                     />
-                    <InputNumberPhone
-                        phoneNumber={phoneNumber}
-                        setPhoneNumber={setPhoneNumber}
-                        checkPhoneNumber={checkPhoneNumber}
-                        setCheckPhoneNumber={setCheckPhoneNumber}
+                    <Input
+                        value={phoneNumber}
+                        setValue={setPhoneNumber}
+                        isCheck={checkPhoneNumber}
+                        setIsCheck={setCheckPhoneNumber}
+                        readOnly={checkupDate}
+                        placeholder={
+                            checkupDate
+                                ? "Không được sửa số điện thoại"
+                                : "Số điện thoại"
+                        }
+                        placeholderError={"Kiểm tra lại số điện thoại của bạn"}
+                        desc={
+                            "Số điện thoại gồm 10 - 11 số , bắt đầu bằng 03,05,07,08,09 ."
+                        }
                     />
-                    <InputCarNumber
-                        carNumber={carNumber}
-                        setCarNumber={setCarNumber}
-                        checkCarNumber={checkCarNumber}
-                        setCheckCarNumber={setCheckCarNumber}
+                    <Input
+                        value={carNumber}
+                        setValue={setCarNumber}
+                        isCheck={checkCarNumber}
+                        setIsCheck={setCheckCarNumber}
+                        placeholder={"Biển số xe"}
+                        placeholderError={"kiểm tra lại biển số xe"}
+                        desc={
+                            "Định dạng biển số xe : 47F1-99999,47F1-9999,47AB-1234"
+                        }
                     />
                     <SelectStore
                         idStore={idStore}

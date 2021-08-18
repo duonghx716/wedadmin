@@ -3,6 +3,8 @@ import { Router } from "react-router-dom";
 import history from "./routes/History";
 import Routes from "./routes/Routes";
 import { IntlProvider } from "react-intl";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 class App extends React.Component {
     render() {
@@ -11,6 +13,7 @@ class App extends React.Component {
                 <div dir={"ltr"}>
                     <Router history={history}>{<Routes />}</Router>
                 </div>
+                <ToastContainer />
             </IntlProvider>
         );
     }

@@ -6,18 +6,12 @@ import {
     DialogContentText,
     DialogTitle,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import InputImage from "./InputImage";
-import InputName from "./InputName";
-import InputPhone from "./InputPhone";
-import InputAddress from "./InputAddress";
-
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-    addStore,
-    editStore,
-    getStoreRequest,
-} from "../../../containers/Store/action";
+import { addStore, editStore } from "../../../containers/Store/action";
+import Input from "../Input";
+import { RegexPhoneNumber } from "../Regex";
+
 export default function FormDialog(props) {
     const dispatch = useDispatch();
     const { open, setOpen, storeUpdate } = props;
@@ -26,7 +20,9 @@ export default function FormDialog(props) {
     const [Address, setAddress] = useState("");
     const [AddressCheck, setAddressCheck] = useState(false);
     const [Phone, setPhone] = useState("");
+    console.log({ Phone });
     const [PhoneCheck, setPhoneCheck] = useState(false);
+    console.log({ PhoneCheck });
     const [Name, setName] = useState("");
     const [NameCheck, setNameCheck] = useState(false);
     const [checkupDate, setCheckupDate] = useState(false);
@@ -40,10 +36,9 @@ export default function FormDialog(props) {
             setNameCheck(true);
         } else if (!Address) {
             setAddressCheck(true);
-        } else if (!Phone) {
+        } else if (!RegexPhoneNumber.test(Phone)) {
             setPhoneCheck(true);
-        } else if (checkupDate == true) {
-            console.log("sửa");
+        } else if (checkupDate) {
             dispatch(
                 editStore(
                     Name,
@@ -56,17 +51,13 @@ export default function FormDialog(props) {
                     storeUpdate.StoreID
                 )
             );
-            dispatch(getStoreRequest());
             handleClose();
         } else {
-            console.log("thêm");
             dispatch(addStore(Name, Address, Phone, 0, 0, image, 0));
-            dispatch(getStoreRequest());
             handleClose();
         }
     };
-    React.useEffect(() => {
-        console.log({ storeUpdate });
+    useEffect(() => {
         if (storeUpdate) {
             setImage(storeUpdate.StoreImage);
             setAddress(storeUpdate.StoreAddress);
@@ -75,11 +66,14 @@ export default function FormDialog(props) {
             setCheckupDate(true);
         }
         return () => {
-            console.log("clean up");
             setImage(null);
             setAddress(null);
             setPhone(null);
             setName(null);
+            setImageCheck(false);
+            setAddressCheck(false);
+            setPhoneCheck(false);
+            setNameCheck(false);
             setCheckupDate(false);
         };
     }, [open]);
@@ -97,29 +91,38 @@ export default function FormDialog(props) {
                     <DialogContentText>
                         Nhập thông tin sản phẩm
                     </DialogContentText>
-                    <InputImage
-                        image={image}
-                        setImage={setImage}
-                        imageCheck={imageCheck}
-                        setImageCheck={setImageCheck}
+
+                    <Input
+                        value={image}
+                        setValue={setImage}
+                        isCheck={imageCheck}
+                        setIsCheck={setImageCheck}
+                        placeholder={"Hình ảnh"}
+                        desc={
+                            "hình ảnh là link url vd: https://knowlab.inpaper-1920x1200-1920x1080.jpg"
+                        }
                     />
-                    <InputName
-                        Name={Name}
-                        setName={setName}
-                        NameCheck={NameCheck}
-                        setNameCheck={setNameCheck}
+                    <Input
+                        value={Name}
+                        setValue={setName}
+                        isCheck={NameCheck}
+                        setIsCheck={setNameCheck}
+                        placeholder={"Tên cửa hàng"}
                     />
-                    <InputAddress
-                        Address={Address}
-                        setAddress={setAddress}
-                        AddressCheck={AddressCheck}
-                        setAddressCheck={setAddressCheck}
+                    <Input
+                        value={Address}
+                        setValue={setAddress}
+                        isCheck={AddressCheck}
+                        setIsCheck={setAddressCheck}
+                        placeholder={"Địa chỉ"}
                     />
-                    <InputPhone
-                        Phone={Phone}
-                        setPhone={setPhone}
-                        PhoneCheck={PhoneCheck}
-                        setPhoneCheck={setPhoneCheck}
+                    <Input
+                        value={Phone}
+                        setValue={setPhone}
+                        isCheck={PhoneCheck}
+                        setIsCheck={setPhoneCheck}
+                        placeholder={"Số điện thoại"}
+                        placeholderError={"Số điện thoại phải là 10 -11 số"}
                     />
                 </DialogContent>
                 <DialogActions>

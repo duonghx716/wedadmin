@@ -1,4 +1,10 @@
-import { TableBody, TableCell, TableRow, Typography } from "@material-ui/core";
+import {
+    TableBody,
+    TableCell,
+    TableRow,
+    Typography,
+    Button,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +50,7 @@ function MTable(props) {
                             <Typography>{row.StorePhone}</Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography
+                            <Button
                                 className={classes.status}
                                 onClick={() => {
                                     setStoreUpdate(row);
@@ -52,7 +58,7 @@ function MTable(props) {
                                 }}
                             >
                                 Sửa
-                            </Typography>
+                            </Button>
                         </TableCell>
                     </TableRow>
                 ))}

@@ -11,8 +11,10 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+    addStatus,
     getProductRequest,
     getTypeRequest,
+    editStatus,
 } from "../../../containers/Product/action";
 import Loader from "../../Loader/Loader";
 import Modal from "./Modal";
@@ -21,12 +23,13 @@ import TableContent from "./TableContent";
 import Title from "./Title";
 import ListType from "./ListType";
 import SearchIcon from "@material-ui/icons/Search";
+import { ToastError, ToastSuccess } from "../TostMessenger";
 const useStyles = makeStyles(() => ({
     table: {
         minWidth: 650,
     },
     tableContainer: {
-        borderRadius: 15,
+        borderRadius: 7,
         margin: "10px 10px",
         maxWidth: "100%",
     },
@@ -42,6 +45,8 @@ const useStyles = makeStyles(() => ({
         backgroundColor: "gray",
     },
     container: {
+        margin: "10px 10px",
+        width: "100%",
         flexDirection: "row",
         display: "flex",
         justifyContent: "space-between",
@@ -61,7 +66,8 @@ function MTable() {
     const [open, setOpen] = React.useState(false);
     const [openModalType, setOpenModalType] = React.useState(false);
     const [data, setData] = useState(dataProduct);
-
+    const StatusAdd = useSelector((state) => state.product.addStatus);
+    const StatusEdit = useSelector((state) => state.product.editStatus);
     const handleChangePage = (_, newPage) => {
         setPage(newPage);
     };
@@ -83,14 +89,44 @@ function MTable() {
         });
         setData(newData);
     };
-
+    const ToastMessengerAdd = (status) => {
+        if (!status) return;
+        if (status === 1) {
+            return ToastSuccess("Thêm thành công");
+        } else if (status === -1) {
+            return ToastError("Thêm thất bại ! Tên đã tồn tại");
+        } else {
+            return ToastError("Thêm thất bại");
+        }
+    };
+    const ToastMessengerEdit = (status) => {
+        if (!status) return;
+        if (status === 1) {
+            return ToastSuccess("Sửa thành công");
+        } else {
+            return ToastError("Sửa thất bại");
+        }
+    };
     useEffect(() => {
         setData(dataProduct);
     }, [dataProduct]);
     useEffect(() => {
         dispatch(getProductRequest());
         dispatch(getTypeRequest());
-    }, [openModalType, open]);
+    }, []);
+
+    useEffect(() => {
+        ToastMessengerAdd(StatusAdd);
+        return () => {
+            dispatch(addStatus(null));
+        };
+    }, [StatusAdd]);
+    useEffect(() => {
+        ToastMessengerEdit(StatusEdit);
+        return () => {
+            dispatch(editStatus(null));
+        };
+    }, [StatusEdit]);
     return (
         <>
             <Modal

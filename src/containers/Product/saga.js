@@ -6,7 +6,8 @@ import {
     getProductFail,
     ADD_PRODUCT,
     EDIT_PRODUCT,
-    GET_ALL_TYPE_PRODUCT,
+    addStatus,
+    editStatus,
     getType,
     GET_ALL_TYPE_PRODUCT_REQUEST,
     ADD_TYPE_PRODUCT,
@@ -59,10 +60,13 @@ const loadAddProduct = (body) => {
 function* addProduct(data) {
     try {
         const response = yield call(loadAddProduct, data);
-        if (response.data) {
-            console.log("thêm thành công");
+        if (response.data.message === "Insert Success") {
+            yield call(loadProductFlow);
+            yield put(addStatus(1));
+        } else if (response.data.message === "Product Name is Exist") {
+            yield put(addStatus(-1));
         } else {
-            console.log("thêm thất bại");
+            yield put(addStatus(0));
         }
     } catch (error) {
         console.log("addShipper catch", error);
@@ -92,10 +96,10 @@ function* editProduct(data) {
         const response = yield call(loadEditProduct, data);
         console.log(JSON.stringify(response));
         if (response.data) {
-            // yield put(loadShipperFlow());
-            console.log(" sửa thành công");
+            yield call(loadProductFlow);
+            yield put(editStatus(1));
         } else {
-            console.log(" sửa thất bại");
+            yield put(editStatus(0));
         }
     } catch (error) {
         console.log("addShipper catch", error);
@@ -103,44 +107,42 @@ function* editProduct(data) {
 }
 const loadAddTypeProduct = (body) => {
     const { typeName, typeNote } = body;
-
     let data = new FormData();
     data.append("typeName", typeName);
     data.append("typeNote", typeNote);
-
     return API("/TypeProduct_insert.php", "POST", data);
 };
 function* AddType(data) {
     try {
         const response = yield call(loadAddTypeProduct, data);
-        console.log(JSON.stringify(response));
-        if (response.data) {
-            console.log(" Thêm thành công");
+        if (response.data === "\n\t\nInsert Success!") {
+            yield call(loadType);
+            yield put(addStatus(1));
+        } else if (response.data === "\n\t\nTypeProduct is exits!") {
+            yield put(addStatus(-1));
         } else {
-            console.log(" Thêm thất bại");
+            yield put(addStatus(0));
         }
     } catch (error) {
         console.log("addShipper catch", error);
     }
 }
 const loadEditTypeProduct = (body) => {
-    console.log("=========", body);
     const { typeName, typeNote, typeID } = body;
     let data = new FormData();
     data.append("typeID", typeID);
     data.append("typeName", typeName);
     data.append("typeNote", typeNote);
-
     return API("/TypeProduct_update.php", "POST", data);
 };
 function* EditType(data) {
     try {
         const response = yield call(loadEditTypeProduct, data);
-        console.log(JSON.stringify(response));
         if (response.data) {
-            console.log(" sửa thành công");
+            yield call(loadType);
+            yield put(editStatus(1));
         } else {
-            console.log(" sửa thất bại");
+            yield put(editStatus(0));
         }
     } catch (error) {
         console.log("addShipper catch", error);

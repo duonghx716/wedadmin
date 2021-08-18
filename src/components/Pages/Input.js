@@ -3,18 +3,20 @@ import TextField from "@material-ui/core/TextField";
 
 const Input = (props) => {
     const {
-        value,
-        setValue,
-        isCheck,
-        setIsCheck,
-        placeholder,
+        value = null,
+        setValue = null,
+        isCheck = null,
+        setIsCheck = null,
+        placeholder = null,
         placeholderError = "Không Được bỏ trống",
-        desc,
+        readOnly = false,
+        desc = null,
+        multiline = false,
     } = props;
     const onChange = (event) => {
         const { value } = event.target;
         setValue(value);
-        setIsCheck(false);
+        if (setIsCheck) setIsCheck(false);
     };
     return (
         <TextField
@@ -29,6 +31,11 @@ const Input = (props) => {
             helperText={desc}
             value={value}
             onChange={onChange}
+            InputProps={{
+                readOnly,
+            }}
+            multiline={multiline}
+            rows={5}
         />
     );
 };

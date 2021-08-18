@@ -1,181 +1,119 @@
-import React, { PureComponent } from "react";
+import React, { useState, useEffect } from "react";
+import Select from "../Select";
+import Chart from "./Chart";
+import { useSelector, useDispatch } from "react-redux";
 import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    Brush,
-    AreaChart,
-    Area,
-    ResponsiveContainer,
-} from "recharts";
-
-const data = [
+    getYearRequest,
+    getStatisticalRequest,
+} from "../../../containers/Statistical/action";
+const initialData = [
     {
-        name: "Tháng 1",
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
+        Month: 1,
+        total: 2400,
     },
     {
-        name: "Tháng 2",
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
+        Month: 2,
+        total: 2210,
     },
     {
-        name: "Tháng 3",
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
+        Month: 3,
+        total: 2290,
     },
     {
-        name: "Tháng 4",
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
+        Month: 4,
+        total: 2000,
     },
     {
-        name: "Tháng 5",
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
+        Month: 5,
+        total: 2181,
     },
     {
-        name: "Tháng 6",
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
+        Month: 6,
+        total: 2500,
     },
     {
-        name: "Tháng 7",
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        Month: 7,
+        total: 2100,
     },
     {
-        name: "Tháng 8",
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        Month: 8,
+        total: 2100,
     },
     {
-        name: "Tháng 9",
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        Month: 9,
+        total: 2100,
     },
     {
-        name: "Tháng 10",
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        Month: 10,
+        total: 2100,
     },
     {
-        name: "Tháng 11",
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        Month: 11,
+        total: 2100,
     },
     {
-        name: "Tháng 12",
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
+        Month: 12,
+        total: 2100,
     },
 ];
 
-export default class Example extends PureComponent {
-    static demoUrl = "https://codesandbox.io/s/synchronized-line-charts-zc3nl";
+const Main = () => {
+    const dispatch = useDispatch();
+    const [Value, setValue] = useState("2021");
+    const [data, setData] = useState(initialData);
+    const dataYear = useSelector((state) => state.Statistical.dataYear);
+    const data1 = useSelector((state) => state.Statistical.data);
+    useEffect(() => {
+        dispatch(getYearRequest());
+    }, []);
+    const totalYear = function () {
+        let sum = 0;
+        data1?.map((item) => {
+            sum += Number(item.total);
+        });
+        return sum;
+    };
+    useEffect(() => {
+        setData(() => {
+            const newData = data.map((element) => {
+                let total = 0;
+                data1?.map((item) => {
+                    if (Number(item.Month) === Number(element.Month)) {
+                        return (total = item.total);
+                    }
+                });
+                return { ...element, Month: element.Month, total };
+            });
+            return newData;
+        });
+    }, [data1]);
+    useEffect(() => {
+        dispatch(getStatisticalRequest(Value));
+    }, [Value]);
 
-    render() {
-        return (
-            <div style={{ width: "100%" }}>
-                <h4>Tổng doanh thu trên tháng</h4>
-
-                <ResponsiveContainer width="100%" height={200}>
-                    <LineChart
-                        width={500}
-                        height={200}
-                        data={data}
-                        syncId="anyId"
-                        margin={{
-                            top: 10,
-                            right: 30,
-                            left: 0,
-                            bottom: 0,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Line
-                            type="monotone"
-                            dataKey="uv"
-                            stroke="#8884d8"
-                            fill="#8884d8"
-                        />
-                    </LineChart>
-                </ResponsiveContainer>
-                <p>Maybe some other content</p>
-
-                <ResponsiveContainer width="100%" height={200}>
-                    <LineChart
-                        width={500}
-                        height={200}
-                        data={data}
-                        syncId="anyId"
-                        margin={{
-                            top: 10,
-                            right: 30,
-                            left: 0,
-                            bottom: 0,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Line
-                            type="monotone"
-                            dataKey="pv"
-                            stroke="#82ca9d"
-                            fill="#82ca9d"
-                        />
-                        <Brush />
-                    </LineChart>
-                </ResponsiveContainer>
-
-                <ResponsiveContainer width="100%" height={200}>
-                    <AreaChart
-                        width={500}
-                        height={200}
-                        data={data}
-                        syncId="anyId"
-                        margin={{
-                            top: 10,
-                            right: 30,
-                            left: 0,
-                            bottom: 0,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Area
-                            type="monotone"
-                            dataKey="pv"
-                            stroke="#82ca9d"
-                            fill="#82ca9d"
-                        />
-                    </AreaChart>
-                </ResponsiveContainer>
-            </div>
-        );
-    }
-}
+    return (
+        <div>
+            <Chart
+                data={data}
+                title={"Tổng doanh thu của tất cả cửa hàng"}
+                dataKey={"total"}
+                totalYear={totalYear()}
+                Chidden={
+                    <Select
+                        title={"Chọn năm"}
+                        Value={Value}
+                        setValue={setValue}
+                        dataSelect={dataYear}
+                    />
+                }
+            ></Chart>
+            <Chart
+                data={data1}
+                totalYear={totalYear()}
+                dataKey={"total"}
+                title={"Tổng doanh thu của 1 cửa hàng"}
+            />
+        </div>
+    );
+};
+export default Main;

@@ -3,6 +3,8 @@ import {
     GET_PRODUCT_SUCCESS,
     GET_PRODUCT_FAIL,
     GET_ALL_TYPE_PRODUCT,
+    ADD_STATUS,
+    EDIT_STATUS,
 } from "./action";
 
 const initialState = {
@@ -11,6 +13,8 @@ const initialState = {
     types: null,
     err: null,
     success: false,
+    addStatus: null,
+    editStatus: null,
 };
 
 export const product = (state = initialState, action) => {
@@ -44,6 +48,16 @@ export const product = (state = initialState, action) => {
             return {
                 ...state,
                 types: action.types,
+            };
+        case ADD_STATUS:
+            return {
+                ...state,
+                addStatus: action.status,
+            };
+        case EDIT_STATUS:
+            return {
+                ...state,
+                editStatus: action.status,
             };
 
         default:

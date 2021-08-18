@@ -6,18 +6,10 @@ import {
     DialogContentText,
     DialogTitle,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import InputImage from "./InputImage";
-import InputName from "./InputName";
-import InputNote from "./InputNote";
-import InputPrice from "./InputPrice";
-import SelectType from "./SelectType";
+import React, { useState, useEffect } from "react";
+import Input from "../Input";
 import { useDispatch } from "react-redux";
-import {
-    addType,
-    getTypeRequest,
-    EditType,
-} from "../../../containers/Product/action";
+import { addType, EditType } from "../../../containers/Product/action";
 export default function FormDialog(props) {
     const dispatch = useDispatch();
     const { openModalType, setOpenModalType, TypeUpdate } = props;
@@ -35,17 +27,14 @@ export default function FormDialog(props) {
         } else if (!Note) {
             setNoteCheck(true);
         } else if (checkupDate == true) {
-            console.log("sửa");
-
             dispatch(EditType(Name, Note, TypeUpdate.TypeID));
             handleClose();
         } else {
-            console.log("thêm");
             dispatch(addType(Name, Note));
             handleClose();
         }
     };
-    React.useEffect(() => {
+    useEffect(() => {
         if (TypeUpdate) {
             setNote(TypeUpdate.TypeNote);
             setName(TypeUpdate.TypeName);
@@ -71,17 +60,19 @@ export default function FormDialog(props) {
                     <DialogContentText>
                         Nhập thông tin loại sản phẩm
                     </DialogContentText>
-                    <InputName
-                        Name={Name}
-                        setName={setName}
-                        NameCheck={NameCheck}
-                        setNameCheck={setNameCheck}
+                    <Input
+                        value={Name}
+                        setValue={setName}
+                        isCheck={NameCheck}
+                        setIsCheck={setNameCheck}
+                        placeholder={"Tên sản phẩm"}
                     />
-                    <InputNote
-                        Note={Note}
-                        setNote={setNote}
-                        NoteCheck={NoteCheck}
-                        setNoteCheck={setNoteCheck}
+                    <Input
+                        value={Note}
+                        setValue={setNote}
+                        isCheck={NoteCheck}
+                        setIsCheck={setNoteCheck}
+                        placeholder={"Ghi chú"}
                     />
                 </DialogContent>
                 <DialogActions>

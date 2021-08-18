@@ -6,8 +6,9 @@ import {
     getShipperFail,
     ADD_SHIPPER,
     EDIT_SHIPPER,
+    editStatus,
+    addStatus,
 } from "./action";
-import axios from "axios";
 import FormData from "form-data";
 function loadShipper() {
     return API("/Admin_getAllShipper.php", "get");
@@ -32,20 +33,21 @@ const loadAddShipper = (body) => {
     data.append("shipPhone", shipPhone);
     data.append("shipNumberCar", shipNumberCar);
     data.append("storeID", storeID);
-
     return API("/Admin_addShipper.php", "POST", data);
 };
 function* addShipper(data) {
     try {
         const response = yield call(loadAddShipper, data);
-        console.log(JSON.stringify(response));
         if (response.data === 1) {
-            // yield put(loadShipperFlow());  /Shipper_Update.php
-            console.log("thêm thành công");
+            yield put(addStatus(1));
+            yield call(loadShipperFlow);
+        } else if (response.data === -1) {
+            yield put(addStatus(-1));
         } else {
-            console.log("thêm thất bại");
+            yield put(addStatus(0));
         }
     } catch (error) {
+        yield put(addStatus(0));
         console.log("addShipper catch", error);
     }
 }
@@ -57,7 +59,6 @@ const loadEditShipper = (body) => {
     data.append("ShipPhone", ShipPhone);
     data.append("ShipNumberCar", ShipNumberCar);
     data.append("StoreID", StoreID);
-
     return API("/Shipper_Update.php", "POST", data);
 };
 function* editShipper(data) {
@@ -65,12 +66,13 @@ function* editShipper(data) {
         const response = yield call(loadEditShipper, data);
         console.log(JSON.stringify(response));
         if (response.data === 1) {
-            // yield put(loadShipperFlow());
-            console.log(" sửa thành công");
+            yield call(loadShipperFlow);
+            yield put(editStatus(1));
         } else {
-            console.log(" sửa thất bại");
+            yield put(editStatus(0));
         }
     } catch (error) {
+        yield put(editStatus(0));
         console.log("addShipper catch", error);
     }
 }

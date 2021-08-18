@@ -2,6 +2,8 @@ import {
     GET_COUPON_REQUEST,
     GET_COUPON_SUCCESS,
     GET_COUPON_FAIL,
+    ADD_STATUS,
+    EDIT_STATUS,
 } from "./action";
 
 const initialState = {
@@ -9,6 +11,8 @@ const initialState = {
     data: null,
     err: null,
     success: false,
+    addStatus: null,
+    editStatus: null,
 };
 
 export const Coupon = (state = initialState, action) => {
@@ -37,6 +41,16 @@ export const Coupon = (state = initialState, action) => {
                 requesting: false,
                 data: null,
                 err: action.payload.err,
+            };
+        case ADD_STATUS:
+            return {
+                ...state,
+                addStatus: action.status,
+            };
+        case EDIT_STATUS:
+            return {
+                ...state,
+                editStatus: action.status,
             };
         default:
             return state;

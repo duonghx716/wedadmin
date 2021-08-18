@@ -1,4 +1,10 @@
-import { TableBody, TableCell, TableRow, Typography } from "@material-ui/core";
+import {
+    TableBody,
+    TableCell,
+    TableRow,
+    Typography,
+    Button,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -75,7 +81,7 @@ function TableContent(props) {
                             <Typography>{row.ProductNote}</Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography
+                            <Button
                                 className={classes.status}
                                 onClick={() => {
                                     setProductUpdate(row);
@@ -83,7 +89,7 @@ function TableContent(props) {
                                 }}
                             >
                                 Sửa
-                            </Typography>
+                            </Button>
                         </TableCell>
                     </TableRow>
                 ))}

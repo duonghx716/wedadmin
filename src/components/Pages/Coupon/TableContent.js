@@ -1,4 +1,10 @@
-import { TableBody, TableCell, TableRow, Typography } from "@material-ui/core";
+import {
+    TableBody,
+    TableCell,
+    TableRow,
+    Typography,
+    Button,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 function TableContent(props) {
     const { data, page, rowsPerPage, setCouponUpdate, setOpen } = props;
     const classes = useStyles();
+    console.log({ data });
     return (
         <TableBody>
             {data
@@ -79,7 +86,7 @@ function TableContent(props) {
                             </Typography>
                         </TableCell>
                         <TableCell>
-                            <Typography
+                            <Button
                                 className={classes.status}
                                 onClick={() => {
                                     setCouponUpdate(row);
@@ -87,7 +94,7 @@ function TableContent(props) {
                                 }}
                             >
                                 Sửa
-                            </Typography>
+                            </Button>
                         </TableCell>
                     </TableRow>
                 ))}

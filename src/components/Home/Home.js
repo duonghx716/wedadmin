@@ -16,11 +16,16 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
+import RestaurantOutlinedIcon from "@material-ui/icons/RestaurantOutlined";
+import PermContactCalendarIcon from "@material-ui/icons/PermContactCalendar";
+import StorefrontIcon from "@material-ui/icons/Storefront";
 import Main from "../Pages/Main";
 import Coupon from "../Pages/Coupon";
 import Product from "../Pages/Product";
 import Store from "../Pages/Store";
 import Shipper from "../Pages/Shipper";
+import Notification from "../Pages/Notification";
 
 const drawerWidth = 240;
 
@@ -104,13 +109,33 @@ export default function MiniDrawer() {
             case 0:
                 return <Main />;
             case 1:
-                return <Shipper />;
+                return <Notification />;
             case 2:
-                return <Store />;
+                return <Shipper />;
             case 3:
-                return <Product />;
+                return <Store />;
             case 4:
+                return <Product />;
+            case 5:
                 return <Coupon />;
+            default:
+                break;
+        }
+    };
+    const RenderIcon = (index) => {
+        switch (index) {
+            case 0:
+                return <InboxIcon />;
+            case 1:
+                return <HomeOutlinedIcon />;
+            case 2:
+                return <RestaurantOutlinedIcon />;
+            case 3:
+                return <PermContactCalendarIcon />;
+            case 4:
+                return <StorefrontIcon />;
+            case 5:
+                return <StorefrontIcon />;
             default:
                 break;
         }
@@ -168,23 +193,34 @@ export default function MiniDrawer() {
                 </div>
                 <Divider />
                 <List>
-                    {["Home", "Shipper", "Store", "Product", "Coupon"].map(
-                        (text, index) => (
-                            <ListItem
-                                button
-                                key={text}
-                                onClick={() => {
-                                    setCheckComponent(index);
-                                    console.log({ index });
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <InboxIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        )
-                    )}
+                    {[
+                        { title: "Thống kê", content: InboxIcon },
+                        { title: "Thông báo", content: InboxIcon },
+                        { title: "Shipper", content: InboxIcon },
+                        { title: "Cửa hàng", content: InboxIcon },
+                        { title: "Sản phẩm", content: InboxIcon },
+                        { title: "Khuyến mãi", content: InboxIcon },
+                    ].map((text, index) => (
+                        <ListItem
+                            button
+                            key={text}
+                            onClick={() => {
+                                setCheckComponent(index);
+                            }}
+                        >
+                            <ListItemIcon>
+                                {RenderIcon(index)}
+                                {/* <InboxIcon />
+                                <HomeOutlinedIcon />
+                                <RestaurantOutlinedIcon /> */}
+                                {/* <PermContactCalendarIcon /> */}
+                                {/* <StorefrontIcon /> */}
+
+                                {/* {text.content} */}
+                            </ListItemIcon>
+                            <ListItemText primary={text.title} />
+                        </ListItem>
+                    ))}
                 </List>
             </Drawer>
 

@@ -13,17 +13,22 @@ import ModalAdd from "./ModalAdd/ModalAdd";
 import Loader from "../../Loader/Loader";
 import Title from "./Title";
 import BodyTable from "./BodyTable";
-import { getShipperRequest } from "../../../containers/Shipper/action";
+import {
+    getShipperRequest,
+    addStatus,
+    editStatus,
+} from "../../../containers/Shipper/action";
 import { getStoreRequest } from "../../../containers/Store/action";
 import Button from "@material-ui/core/Button";
 
 import SearchIcon from "@material-ui/icons/Search";
+import { ToastError, ToastSuccess } from "../TostMessenger";
 const useStyles = makeStyles(() => ({
     table: {
         minWidth: 650,
     },
     tableContainer: {
-        borderRadius: 15,
+        borderRadius: 7,
         margin: "10px 10px",
         maxWidth: "100%",
     },
@@ -31,6 +36,8 @@ const useStyles = makeStyles(() => ({
         flexDirection: "row",
         display: "flex",
         justifyContent: "space-between",
+        margin: "10px 10px",
+        width: "100%",
     },
     search: {
         flexDirection: "row",
@@ -55,10 +62,42 @@ function MTable() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [open, setOpen] = useState(false);
     const [data, setData] = useState(dataShipper);
-    const [search, setSearch] = useState(null);
-    console.log({ search });
-    console.log({ data });
+    const [search] = useState(null);
+    const StatusAdd = useSelector((state) => state.shipper.addStatus);
+    const StatusEdit = useSelector((state) => state.shipper.editStatus);
 
+    const ToastMessengerAdd = (status) => {
+        if (!status) return;
+        if (status === 1) {
+            console.log("status === 1");
+            return ToastSuccess("Thêm shipper thành công");
+        } else if (status === -1) {
+            return ToastError("Thêm thất bại ! Số điện thoại đã tồn tại");
+        } else {
+            return ToastError("Thêm shipper thất bại");
+        }
+    };
+    const ToastMessengerEdit = (status) => {
+        if (!status) return;
+        if (status === 1) {
+            return ToastSuccess("Sửa shipper thành công");
+        } else {
+            return ToastError("Sửa shipper thất bại");
+        }
+    };
+    useEffect(() => {
+        if (!StatusAdd) return;
+        ToastMessengerAdd(StatusAdd);
+        return () => {
+            dispatch(addStatus(null));
+        };
+    }, [StatusAdd]);
+    useEffect(() => {
+        ToastMessengerEdit(StatusEdit);
+        return () => {
+            dispatch(editStatus(null));
+        };
+    }, [StatusEdit]);
     const onChangeSearch = (event) => {
         const { value } = event.target;
         const newData = dataShipper?.filter((shipper) => {
@@ -85,7 +124,18 @@ function MTable() {
     useEffect(() => {
         setData(dataShipper);
     }, [dataShipper]);
-
+    useEffect(() => {
+        ToastMessengerAdd(StatusAdd);
+        return () => {
+            dispatch(addStatus(null));
+        };
+    }, [StatusAdd]);
+    useEffect(() => {
+        ToastMessengerEdit(StatusEdit);
+        return () => {
+            dispatch(editStatus(null));
+        };
+    }, [StatusEdit]);
     return (
         <>
             <ModalAdd

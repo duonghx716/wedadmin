@@ -7,12 +7,9 @@ import {
     DialogTitle,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import InputImage from "./InputImage";
-import InputName from "./InputName";
-import InputNote from "./InputNote";
-import InputPrice from "./InputPrice";
 import SelectType from "./SelectType";
 import { useDispatch } from "react-redux";
+import Input from "../Input";
 import {
     addProduct,
     editProduct,
@@ -58,12 +55,10 @@ export default function FormDialog(props) {
                     idType
                 )
             );
-            // dispatch(getProductRequest());
             handleClose();
         } else {
             console.log("thêm");
             dispatch(addProduct(Name, Price, image, Note, idType));
-            // dispatch(getProductRequest());
             handleClose();
         }
     };
@@ -101,30 +96,38 @@ export default function FormDialog(props) {
                     <DialogContentText>
                         Nhập thông tin sản phẩm
                     </DialogContentText>
-                    <InputImage
-                        image={image}
-                        setImage={setImage}
-                        imageCheck={imageCheck}
-                        setImageCheck={setImageCheck}
+                    <Input
+                        value={image}
+                        setValue={setImage}
+                        isCheck={imageCheck}
+                        setIsCheck={setImageCheck}
+                        placeholder={"Hình ảnh"}
+                        desc={
+                            "hình ảnh là link url vd: https://knowlab.inpaper-1920x1200-1920x1080.jpg"
+                        }
                     />
-                    <InputName
-                        Name={Name}
-                        setName={setName}
-                        NameCheck={NameCheck}
-                        setNameCheck={setNameCheck}
+                    <Input
+                        value={Name}
+                        setValue={setName}
+                        isCheck={NameCheck}
+                        setIsCheck={setNameCheck}
+                        placeholder={"Tên sản phẩm"}
                     />
-                    <InputPrice
-                        Price={Price}
-                        setPrice={setPrice}
-                        PriceCheck={PriceCheck}
-                        setPriceCheck={setPriceCheck}
+                    <Input
+                        value={Price}
+                        setValue={setPrice}
+                        isCheck={PriceCheck}
+                        setIsCheck={setPriceCheck}
+                        placeholder={"Giá"}
                     />
-                    <InputNote
-                        Note={Note}
-                        setNote={setNote}
-                        NoteCheck={NoteCheck}
-                        setNoteCheck={setNoteCheck}
+                    <Input
+                        value={Note}
+                        setValue={setNote}
+                        isCheck={NoteCheck}
+                        setIsCheck={setNoteCheck}
+                        placeholder={"Ghi chú"}
                     />
+
                     <SelectType
                         idType={idType}
                         setIdType={setIdType}
