@@ -1,10 +1,17 @@
-import { GET_USER_FAIL, GET_USER_REQUEST, GET_USER_SUCCESS } from "./action";
+import {
+    SEEN_MESSENGER,
+    SEEN_MESSENGER_SUCCESS,
+    GET_USER_FAIL,
+    GET_USER_REQUEST,
+    GET_USER_SUCCESS,
+} from "./action";
 
 const initialState = {
     requesting: false,
     data: null,
     err: null,
     success: false,
+    successNoti: false,
 };
 
 export const user = (state = initialState, action) => {
@@ -35,6 +42,16 @@ export const user = (state = initialState, action) => {
                 err: action.payload.err,
             };
 
+        case SEEN_MESSENGER:
+            return {
+                ...state,
+                successNoti: false,
+            };
+        case SEEN_MESSENGER_SUCCESS:
+            return {
+                ...state,
+                successNoti: true,
+            };
         default:
             return state;
     }

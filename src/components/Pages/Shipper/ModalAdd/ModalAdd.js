@@ -57,7 +57,6 @@ const ModalAdd = ({ open, setOpen, shipperUpdate }) => {
             setCheckupDate(true);
         }
         return () => {
-            console.log("clean up");
             setIDStore("");
             setImage(null);
             setName(null);

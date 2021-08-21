@@ -20,7 +20,6 @@ function getAllProduct() {
 function* loadProductFlow() {
     try {
         const response = yield call(getAllProduct);
-        console.log({ response });
         if (response) {
             yield put(getProductSuccess(response.data.products));
         } else {
@@ -36,7 +35,6 @@ function getTypePro() {
 function* loadType() {
     try {
         const response = yield call(getTypePro);
-        console.log({ response });
         if (response) {
             yield put(getType(response.data.TypeProduct));
         } else {
@@ -94,7 +92,6 @@ const loadEditProduct = (body) => {
 function* editProduct(data) {
     try {
         const response = yield call(loadEditProduct, data);
-        console.log(JSON.stringify(response));
         if (response.data) {
             yield call(loadProductFlow);
             yield put(editStatus(1));

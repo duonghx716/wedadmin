@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
     },
     tableContainer: {
         borderRadius: 7,
-        margin: "10px 10px",
+        marginBottom: "20px",
         maxWidth: "100%",
     },
     search: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles(() => ({
         backgroundColor: "gray",
     },
     container: {
-        margin: "10px 10px",
+        marginBottom: "20px",
         width: "100%",
         flexDirection: "row",
         display: "flex",

@@ -36,7 +36,6 @@ function TableContent(props) {
     const { dataProduct, page, rowsPerPage, setProductUpdate, setOpen } = props;
     const dispatch = useDispatch();
     const type = useSelector((state) => state.product.types);
-    console.log({ type });
     const TypeLine = (id) => {
         const data = type && type.find((item) => item.TypeID === id + "");
         return data?.TypeName;

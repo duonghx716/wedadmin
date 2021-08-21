@@ -1,5 +1,6 @@
 import {
     GET_STATISTICAL_FAIL,
+    GET_STATISTICAL_ONE_SUCCESS,
     GET_STATISTICAL_REQUEST,
     GET_STATISTICAL_SUCCESS,
     GET_YEAR_SUCCESS,
@@ -11,6 +12,7 @@ const initialState = {
     dataYear: null,
     err: null,
     success: false,
+    dataOneStore: null,
 };
 
 export const Statistical = (state = initialState, action) => {
@@ -43,6 +45,11 @@ export const Statistical = (state = initialState, action) => {
             return {
                 ...state,
                 dataYear: action.payload.data,
+            };
+        case GET_STATISTICAL_ONE_SUCCESS:
+            return {
+                ...state,
+                dataOneStore: action.data,
             };
 
         default:

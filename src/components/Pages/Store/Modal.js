@@ -20,9 +20,7 @@ export default function FormDialog(props) {
     const [Address, setAddress] = useState("");
     const [AddressCheck, setAddressCheck] = useState(false);
     const [Phone, setPhone] = useState("");
-    console.log({ Phone });
     const [PhoneCheck, setPhoneCheck] = useState(false);
-    console.log({ PhoneCheck });
     const [Name, setName] = useState("");
     const [NameCheck, setNameCheck] = useState(false);
     const [checkupDate, setCheckupDate] = useState(false);

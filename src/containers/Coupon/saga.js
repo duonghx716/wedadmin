@@ -16,7 +16,6 @@ function loadCoupon() {
 function* loadCouponFlow() {
     try {
         const response = yield call(loadCoupon);
-        console.log({ response });
         if (response) {
             yield put(getCouponSuccess(response.data.Coupon));
         } else {
@@ -84,7 +83,6 @@ function loadEditCoupon(body) {
 function* editCoupon(data) {
     try {
         const response = yield call(loadEditCoupon, data);
-        console.log("editCoupon", response);
         if (response.data) {
             yield call(loadCouponFlow);
             yield put(editStatus(1));
@@ -97,7 +95,6 @@ function* editCoupon(data) {
 }
 
 export default function* loadCouponWatcher() {
-    console.log("{ response }");
     yield takeLatest(GET_COUPON_REQUEST, loadCouponFlow);
     yield takeLatest(ADD_COUPON, addCoupon);
     yield takeLatest(EDIT_COUPON, editCoupon);

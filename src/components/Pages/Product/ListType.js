@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(() => ({
     root: {
-        width: "100%",
-        backgroundColor: "gray",
+        width: "50%",
+        backgroundColor: "Silver",
         padding: 20,
         borderRadius: 15,
     },
@@ -17,14 +17,31 @@ const useStyles = makeStyles(() => ({
         padding: 20,
         fontSize: 30,
         borderRadius: 10,
-        backgroundColor: "blue",
+        backgroundColor: "#0EAB19",
+        justifyContent: "center",
+        display: "grid",
+        margin: "10px",
     },
     btn: {
-        marginRight: 10,
-        marginTop: 20,
+        width: "100%",
+        padding: 20,
+        fontSize: 30,
+        borderRadius: 10,
+        margin: "10px",
+        backgroundColor: "blue",
     },
     row: {
         flexDirection: "row",
+        display: "flex",
+        justifyContent: "space-between",
+    },
+    btnadd: {
+        width: "100%",
+        // padding: 20,
+        // fontSize: 30,
+        // borderRadius: 10,
+        margin: "10px",
+        backgroundColor: "blue",
     },
 }));
 
@@ -37,18 +54,27 @@ export default function FolderList({ setOpenModalType, setTypeUpdate }) {
     };
     return (
         <List className={classes.root}>
-            <div className={classes.row}>
+            <div>
                 <ListItemText
                     primary="Danh Sách Loại Sản phẩm"
                     className={classes.title}
                 />
+                {/* <ListItemText
+                    primary="Thêm Loại"
+                    className={classes.btn}
+                    onClick={handleClick}
+                /> */}
                 <Button
+                    className={classes.btnadd}
                     variant="contained"
                     color="primary"
                     align="right"
                     onClick={handleClick}
                 >
-                    Thêm Loại
+                    <ListItemText
+                        secondary={"Thêm Loại"}
+                        className={classes.title}
+                    />
                 </Button>
             </div>
 

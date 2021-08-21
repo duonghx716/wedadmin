@@ -60,7 +60,6 @@ export default function FormDialog(props) {
         } else if (!numberRegex.test(price)) {
             setIsPriceCheck(true);
         } else if (checkupDate == true) {
-            console.log("sửa");
             const endDate = foumartDate(dateEnd);
             const startDate = foumartDate(dateStart);
             const status = "Đang Chạy";

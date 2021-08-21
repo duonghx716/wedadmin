@@ -6,6 +6,7 @@ import { product } from "../../containers/Product/reducer";
 import { Coupon } from "../../containers/Coupon/reducer";
 import { user } from "../../containers/User/reducer";
 import { Statistical } from "../../containers/Statistical/reducer";
+import { login } from "../../containers/Login/reducer";
 
 export default combineReducers({
     store,
@@ -14,4 +15,5 @@ export default combineReducers({
     Coupon,
     user,
     Statistical,
+    login,
 });

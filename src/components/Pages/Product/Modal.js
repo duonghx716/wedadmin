@@ -44,7 +44,6 @@ export default function FormDialog(props) {
         } else if (!idType) {
             setIdTypeCheck(true);
         } else if (checkupDate == true) {
-            console.log("sửa");
             dispatch(
                 editProduct(
                     productUpdate.ProductID,
@@ -57,13 +56,11 @@ export default function FormDialog(props) {
             );
             handleClose();
         } else {
-            console.log("thêm");
             dispatch(addProduct(Name, Price, image, Note, idType));
             handleClose();
         }
     };
     React.useEffect(() => {
-        console.log({ productUpdate });
         if (productUpdate) {
             setIdType(productUpdate.TypeID);
             setImage(productUpdate.ProductImage);
@@ -73,7 +70,6 @@ export default function FormDialog(props) {
             setCheckupDate(true);
         }
         return () => {
-            console.log("clean up");
             setIdType("");
             setImage(null);
             setPrice(null);

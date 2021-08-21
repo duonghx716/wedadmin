@@ -7,6 +7,9 @@ import {
     getYearSuccess,
     GET_STATISTICAL_REQUEST,
     GET_YEAR_REQUEST,
+    GET_STATISTICAL_ONE_REQUEST,
+    GET_STATISTICAL_ONE_SUCCESS,
+    getStatisticalOneSuccess,
 } from "./action";
 
 function loadStatistical(body) {
@@ -41,7 +44,28 @@ function* loadYearFlow() {
         console.log("loadYearFlow catch", error);
     }
 }
+
+function loadStatisticalOne(body) {
+    const { year, storeID } = body;
+    let data = new FormData();
+    data.append("year", year);
+    data.append("storeID", storeID);
+    return API("/Admin_ThongKe1Store.php", "POST", data);
+}
+function* loadStatisticalOneFlow(body) {
+    try {
+        const response = yield call(loadStatisticalOne, body);
+        if (response.data) {
+            yield put(getStatisticalOneSuccess(response.data));
+        } else {
+            console.log("loadStatisticalOneFlow error");
+        }
+    } catch (error) {
+        console.log("loadStoreFlow catch", error);
+    }
+}
 export default function* loadStatisticalWatcher() {
     yield takeLatest(GET_STATISTICAL_REQUEST, loadStatisticalFlow);
     yield takeLatest(GET_YEAR_REQUEST, loadYearFlow);
+    yield takeLatest(GET_STATISTICAL_ONE_REQUEST, loadStatisticalOneFlow);
 }

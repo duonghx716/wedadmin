@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 function TableContent(props) {
     const { data, page, rowsPerPage, setCouponUpdate, setOpen } = props;
     const classes = useStyles();
-    console.log({ data });
     return (
         <TableBody>
             {data

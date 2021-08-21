@@ -69,7 +69,6 @@ function MTable() {
     const ToastMessengerAdd = (status) => {
         if (!status) return;
         if (status === 1) {
-            console.log("status === 1");
             return ToastSuccess("Thêm shipper thành công");
         } else if (status === -1) {
             return ToastError("Thêm thất bại ! Số điện thoại đã tồn tại");

@@ -51,7 +51,6 @@ function addStore(body) {
 function* addStoreFlow(data) {
     try {
         const response = yield call(addStore, data);
-        console.log({ data: response.data });
         if (response.data === "\n\t\nInsert Success!") {
             yield call(loadStoreFlow);
             yield put(addStatus(1));
@@ -93,7 +92,6 @@ function editStore(body) {
 function* editStoreFlow(data) {
     try {
         const response = yield call(editStore, data);
-        console.log("load editStoreFlow success", response);
 
         if (response.data) {
             yield call(loadStoreFlow);

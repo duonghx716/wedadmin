@@ -1,31 +1,36 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
+import {
+    Drawer,
+    AppBar,
+    Toolbar,
+    List,
+    CssBaseline,
+    Typography,
+    Divider,
+    IconButton,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Button,
+} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import RestaurantOutlinedIcon from "@material-ui/icons/RestaurantOutlined";
 import PermContactCalendarIcon from "@material-ui/icons/PermContactCalendar";
 import StorefrontIcon from "@material-ui/icons/Storefront";
+import ReplyIcon from "@material-ui/icons/Reply";
 import Main from "../Pages/Main";
 import Coupon from "../Pages/Coupon";
 import Product from "../Pages/Product";
 import Store from "../Pages/Store";
 import Shipper from "../Pages/Shipper";
 import Notification from "../Pages/Notification";
+import History from "../../routes/History";
 
 const drawerWidth = 240;
 
@@ -89,6 +94,11 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    row: {
+        flexDirection: "row",
+        display: "flex",
+        justifyContent: "space-between",
+    },
 }));
 
 export default function MiniDrawer() {
@@ -103,6 +113,9 @@ export default function MiniDrawer() {
 
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+    const handleLogin = () => {
+        History.push("/login");
     };
     const RenderComponent = ({ index }) => {
         switch (index) {
@@ -162,10 +175,11 @@ export default function MiniDrawer() {
                     >
                         <MenuIcon />
                     </IconButton>
-
-                    <Typography variant="h6" noWrap>
-                        App food delivery
-                    </Typography>
+                    <div className={classes.row}>
+                        <Typography variant="h6" noWrap>
+                            Web Admin Food Delivery
+                        </Typography>
+                    </div>
                 </Toolbar>
             </AppBar>
 
@@ -208,19 +222,20 @@ export default function MiniDrawer() {
                                 setCheckComponent(index);
                             }}
                         >
-                            <ListItemIcon>
-                                {RenderIcon(index)}
-                                {/* <InboxIcon />
-                                <HomeOutlinedIcon />
-                                <RestaurantOutlinedIcon /> */}
-                                {/* <PermContactCalendarIcon /> */}
-                                {/* <StorefrontIcon /> */}
-
-                                {/* {text.content} */}
-                            </ListItemIcon>
+                            <ListItemIcon>{RenderIcon(index)}</ListItemIcon>
                             <ListItemText primary={text.title} />
                         </ListItem>
                     ))}
+                    <Button
+                        onClick={handleLogin}
+                        fullWidth
+                        variant="contained"
+                        color="green"
+                        align="right"
+                    >
+                        <ReplyIcon />
+                    </Button>
+                    <ListItemText primary="Đăng xuất" />
                 </List>
             </Drawer>
 

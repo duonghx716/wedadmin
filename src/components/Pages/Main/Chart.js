@@ -16,7 +16,7 @@ const Chart = ({ data, title, Chidden, dataKey, totalYear }) => {
 
     return (
         <div style={{ width: "100%" }}>
-            <h2>{`${title} Trong năm là ${format}`}</h2>
+            <h2>{`${title} trong năm là ${format}`}</h2>
             {Chidden}
             <ResponsiveContainer width="100%" height={200}>
                 <AreaChart

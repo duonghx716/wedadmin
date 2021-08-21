@@ -3,7 +3,7 @@ const Auth = {
         localStorage.removeItem("token");
     },
     isAuth() {
-        return localStorage.getItem("token");
+        return localStorage.getItem("isLogin");
     },
 };
 export default Auth;

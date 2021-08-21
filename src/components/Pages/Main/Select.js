@@ -1,16 +1,17 @@
-import FormControl from "@material-ui/core/FormControl";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
-        minWidth: 120,
+        minWidth: "300px",
     },
     container: {
-        width: "100px",
+        width: "300px",
+        marginRight: "50px",
     },
     lineStoreName: {
         backgroundColor: "#CCCCCC",
@@ -19,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#EEEEEE",
     },
 }));
-export const SelectStore = (props) => {
-    const { setValue, Value, dataSelect, title } = props;
+const SelectStore = (props) => {
     const classes = useStyles();
+    const { setValue, Value, dataSelect, title } = props;
     const onChange = (event) => {
         const { value } = event.target;
         setValue(value);
@@ -39,19 +40,21 @@ export const SelectStore = (props) => {
                     onChange={onChange}
                 >
                     {dataSelect &&
-                        dataSelect.map((type, index) => (
-                            <MenuItem
-                                value={type.Year}
-                                key={type.Year}
-                                className={
-                                    index % 2 === 0
-                                        ? classes.lineStoreName
-                                        : classes.lineStoreName1
-                                }
-                            >
-                                {type.Year}
-                            </MenuItem>
-                        ))}
+                        dataSelect.map((store, index) => {
+                            return (
+                                <MenuItem
+                                    value={store?.StoreID}
+                                    key={store?.StoreID}
+                                    className={
+                                        index % 2 === 0
+                                            ? classes.lineStoreName
+                                            : classes.lineStoreName1
+                                    }
+                                >
+                                    {store?.StoreName}
+                                </MenuItem>
+                            );
+                        })}
                 </Select>
             </FormControl>
         </>

@@ -16,5 +16,5 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         />
     );
 };
-
+//{/* <Redirect to={`/dashboard`} /> */}
 export default PrivateRoute;

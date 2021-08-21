@@ -13,15 +13,15 @@ import { useDispatch, useSelector } from "react-redux";
 import Input from "../Input";
 import Title from "./Title";
 import TableContent from "./TableContent";
-import { getUserRequest } from "../../../containers/User/action";
-import SearchIcon from "@material-ui/icons/Search";
+import { getUserRequest, setMessenger } from "../../../containers/User/action";
 import Loader from "../../Loader/Loader";
+import { ToastError, ToastSuccess } from "../TostMessenger";
+
 const useStyles = makeStyles(() => ({
     container: {
         flexDirection: "row",
         display: "flex",
         justifyContent: "space-around",
-
         width: "100%",
     },
     table: {
@@ -55,22 +55,29 @@ function Notification() {
     const [title, setTitle] = useState(null);
     const [content, setContent] = useState(null);
     const user = useSelector((state) => state.user.data);
-    const userSuccess = useSelector((state) => state.user.success);
+    // const userSuccess = useSelector((state) => state.user.success);
+    const { successNoti } = useSelector((state) => state.user);
     const [checkedAll, setCheckedAll] = useState(false);
     const [countSelected, setCountSelected] = useState(0);
-    // const [search] = useState(null);
     const [data, setData] = useState();
-
-    // const onChangeSearch = (event) => {
-    //     const { value } = event.target;
-    //     const newData = user?.filter((shipper) => {
-    //         return (
-    //             shipper.UserName.toLowerCase().indexOf(value.toLowerCase()) !==
-    //             -1
-    //         );
-    //     });
-    //     setData(newData);
-    // };
+    const seenMes = () => {
+        const item = data
+            ?.filter((user) => user.status === true)
+            .map((user) => {
+                return user.Token;
+            });
+        if (title && content && item.length !== 0) {
+            dispatch(setMessenger(title, content, item));
+        } else {
+            return ToastError("Nhập đủ thông tin");
+        }
+        if (successNoti) {
+            setTitle("");
+            setContent("");
+            setCheckedAll(false);
+            return ToastSuccess("Gửi thông báo thành công");
+        }
+    };
     const handleChangePage = (_, newPage) => {
         setPage(newPage);
     };
@@ -97,10 +104,10 @@ function Notification() {
         setCountSelected(total.length);
         setData(newData);
     };
+    const newData = user?.map((data) => {
+        return { ...data, status: checkedAll };
+    });
     useEffect(() => {
-        const newData = user?.map((data) => {
-            return { ...data, status: checkedAll };
-        });
         checkedAll ? setCountSelected(-1) : setCountSelected(0);
         setData(newData);
     }, [checkedAll, user]);
@@ -128,29 +135,13 @@ function Notification() {
                     variant="contained"
                     color="primary"
                     align="right"
-                    onClick={() => {}}
+                    onClick={() => seenMes()}
                 >
                     Gửi thông báo
                 </Button>
             </div>
             <div className={classes.chiddenContainer}>
-                {/* <div className={classes.container}> */}
                 <h1>Thông tin người dùng</h1>
-                {/* <div className={classes.search}>
-                        <div>
-                            <SearchIcon />
-                        </div>
-                        <div>
-                            <InputBase
-                                placeholder="Tìm kiếm theo tên...."
-                                inputProps={{ "aria-label": "search" }}
-                                value={search}
-                                onChange={onChangeSearch}
-                            />
-                        </div>
-                    </div>
-                </div> */}
-
                 <TableContainer
                     component={Paper}
                     className={classes.tableContainer}
